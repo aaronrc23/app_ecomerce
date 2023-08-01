@@ -98,6 +98,11 @@
             android:textColor="#202E53"
             android:textSize="20dp" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvcardprod"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
 
     </LinearLayout>
 
