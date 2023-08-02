@@ -1,5 +1,6 @@
 package com.example.ejm1.Object
 
+import com.example.ejm1.Api.ConsumirApiOferta
 import com.example.ejm1.Api.ConsumirApiProduct
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -14,4 +15,5 @@ object RetrofitClient {
         .build()
 
     val consumirApi = retrofit.create(ConsumirApiProduct::class.java)
+    val consumirApiOferta = retrofit.create(ConsumirApiOferta::class.java)
 }

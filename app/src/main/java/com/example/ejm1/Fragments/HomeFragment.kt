@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ejm1.Adapter.ProductoAdapter
+import com.example.ejm1.Clases.Oferta
 import com.example.ejm1.Clases.Product
 import com.example.ejm1.Object.RetrofitClient
 
@@ -59,15 +60,12 @@ class HomeFragment : Fragment() {
         // Obtener referencia al ImageSlider
         val imageSlider = view.findViewById<ImageSlider>(R.id.image_slider)
 
-        // Agrega las imágenes y los títulos a la lista de imágenes
-        imageList.add(SlideModel("https://bit.ly/2YoJ77H"))
-        imageList.add(SlideModel("https://bit.ly/2BteuF2"))
-        imageList.add(SlideModel("https://bit.ly/3fLJf72"))
 
         // Establece la lista de imágenes en el control de deslizamiento de imágenes
         imageSlider.setImageList(imageList)
 
-        // Llamar al método para obtener los productos de la API
+        // Llamar al método para obtener las ofertas y productos de la API
+        obtenerOfertas(imageSlider)
         obtenerProductos()
     }
 
@@ -93,6 +91,38 @@ class HomeFragment : Fragment() {
             }
         })
     }
+
+
+    private fun obtenerOfertas(imageSlider: ImageSlider) {
+        val retrofitTraer = RetrofitClient.consumirApiOferta.Obtenerofertas()
+
+        retrofitTraer.enqueue(object : Callback<List<Oferta>> {
+            override fun onResponse(call: Call<List<Oferta>>, response: Response<List<Oferta>>) {
+                if (response.isSuccessful) {
+                    val ofertas = response.body()
+                    if (ofertas != null) {
+                        // Convertir cada objeto Oferta en un objeto SlideModel y agregarlo a la lista imageList
+                        for (oferta in ofertas) {
+                            val slideModel = SlideModel(oferta.imagen /*, oferta.titulo*/)
+                            imageList.add(slideModel)
+                        }
+
+                        // Establecer la lista de SlideModel en el control de deslizamiento de imágenes
+                        imageSlider.setImageList(imageList)
+                    } else {
+                        Toast.makeText(activity, "No se encontraron ofertas.", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(activity, "Error al obtener las ofertas.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<Oferta>>, t: Throwable) {
+                Toast.makeText(activity, "Error al consultar API Rest", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
 
 
 
