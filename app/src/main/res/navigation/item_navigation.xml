@@ -37,4 +37,13 @@
         android:name="com.example.ejm1.Fragments.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" />
+    <fragment
+        android:id="@+id/categoriaFragment"
+        android:name="com.example.ejm1.Fragments.CategoriaFragment"
+        android:label="fragment_categoria"
+        tools:layout="@layout/fragment_categoria" >
+        <action
+            android:id="@+id/action_categoriaFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
 </navigation>

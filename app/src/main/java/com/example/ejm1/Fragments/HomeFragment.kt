@@ -126,6 +126,4 @@ class HomeFragment : Fragment() {
 
 
 
-
-
 }

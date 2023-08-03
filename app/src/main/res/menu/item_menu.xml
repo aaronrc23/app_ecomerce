@@ -4,7 +4,11 @@
     <item android:title="Inicio"
         android:id="@id/homeFragment"
         android:icon="@drawable/baseline_home_24"/>
+
     <item android:title="Compras"
+        android:id="@id/categoriaFragment"
+        android:icon="@drawable/baseline_shopping_basket_24"/>
+    <item android:title="Orden"
         android:id="@id/comprasFragment"
         android:icon="@drawable/baseline_shopping_cart_24"/>
     <item android:title="Perfil"
