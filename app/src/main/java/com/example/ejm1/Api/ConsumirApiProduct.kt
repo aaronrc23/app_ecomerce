@@ -5,6 +5,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ConsumirApiProduct {
 
@@ -14,5 +15,8 @@ interface ConsumirApiProduct {
     @POST("producto/registrar")
     fun registrarCategoria(@Body categoria: Product): Call<String>
 
+
+    @GET("producto/listarPorCategoria/{categoriaId}")
+    fun getProductosPorCategoria(@Path("categoriaId") categoriaId: Long): Call<List<Product>>
 
 }

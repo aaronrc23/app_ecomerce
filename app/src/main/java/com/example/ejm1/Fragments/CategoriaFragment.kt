@@ -9,7 +9,9 @@ import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ejm1.Adapter.CategoriaAdapter
+import com.example.ejm1.Adapter.ProductoAdapter
 import com.example.ejm1.Clases.Categoria
+import com.example.ejm1.Clases.Product
 import com.example.ejm1.Object.RetrofitClient
 import com.example.ejm1.R
 import retrofit2.Call
@@ -22,6 +24,8 @@ class CategoriaFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var miAdapter: CategoriaAdapter
     private val categoriaList = mutableListOf<Categoria>()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,9 +44,13 @@ class CategoriaFragment : Fragment() {
         val layoutManager = GridLayoutManager(activity, 2) // Cambia el número '2' al número de columnas que desees
         recyclerView.layoutManager = layoutManager
 
-        miAdapter = CategoriaAdapter(categoriaList)
+        miAdapter = CategoriaAdapter(categoriaList) // Corregir aquí, usar CategoriaAdapter en lugar de ProductoAdapter
         recyclerView.adapter = miAdapter
         return view
+
+
+
+
 
     }
 
@@ -50,8 +58,17 @@ class CategoriaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        // Configurar el onItemClickListener para el CategoriaAdapter
+        miAdapter.setOnItemClickListener { categoria ->
+            // Obtener el idCategoria de la categoría seleccionada
+            val categoriaId = categoria.idCategoria
+
+            // Llamar al método para obtener los productos por categoría
+            obtenerProductosPorCategoria(categoriaId)
+        }
 
         obtenerProductos()
+
     }
 
     private fun obtenerProductos() {
@@ -76,5 +93,40 @@ class CategoriaFragment : Fragment() {
             }
         })
     }
+    private fun obtenerProductosPorCategoria(categoriaId: Long) {
+        val retrofitTraer = RetrofitClient.consumirApiProduct.getProductosPorCategoria(categoriaId)
+
+        retrofitTraer.enqueue(object : Callback<List<Product>> {
+            override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {
+                if (response.isSuccessful) {
+                    val productos = response.body()
+                    if (productos != null) {
+                        // Aquí tienes la lista de productos por categoría, puedes mostrarlos en el RecyclerView.
+                        // Primero, asegúrate de tener una lista para almacenar los productos en el Fragment.
+                        val productList = mutableListOf<Product>()
+                        productList.addAll(productos)
+
+                        // Configura el RecyclerView con un LinearLayoutManager
+                        val layoutManager = GridLayoutManager(context, 2) // Cambia el número '2' al número de columnas que desees
+                        recyclerView.layoutManager = layoutManager
+
+                        // Crea el adaptador y asígnale la lista de productos
+                        val miAdapter = ProductoAdapter(productList)
+                        recyclerView.adapter = miAdapter
+                    } else {
+                        Toast.makeText(context, "No se encontraron productos.", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(context, "Error al obtener los productos.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<Product>>, t: Throwable) {
+                Toast.makeText(context, "Error al consultar API Rest", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+
 
 }

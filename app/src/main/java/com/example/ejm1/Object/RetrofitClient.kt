@@ -18,4 +18,7 @@ object RetrofitClient {
     val consumirApi = retrofit.create(ConsumirApiProduct::class.java)
     val consumirApiOferta = retrofit.create(ConsumirApiOferta::class.java)
     val consumirApiCategoria = retrofit.create(ConsumirApiCategoria::class.java)
+
+    val consumirApiProduct = retrofit.create(ConsumirApiProduct::class.java)
+
 }

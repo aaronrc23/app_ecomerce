@@ -5,13 +5,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.ejm1.Clases.Categoria
 import com.example.ejm1.Clases.Product
 import com.example.ejm1.R
 
+import androidx.navigation.NavDirections
+import androidx.navigation.findNavController
+
 class CategoriaAdapter (private var dataList: List<Categoria>):RecyclerView.Adapter<CategoriaAdapter.CategoriaViewHolder>(){
+
+
+    // 2. Establecer el clic en la card de categoría
+    private var onItemClickListener: ((Categoria) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (Categoria) -> Unit) {
+        onItemClickListener = listener
+    }
 
     class CategoriaViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
         val categoriaImage: ImageView = itemView.findViewById(R.id.imgcategoria)
@@ -37,7 +49,16 @@ class CategoriaAdapter (private var dataList: List<Categoria>):RecyclerView.Adap
             .into(holder.categoriaImage)
 
         holder.categoriaNameTextView.text =category.nombre
+        /*---*/
+        holder.itemView.setOnClickListener {
+            val bundle = bundleOf("categoryId" to category.idCategoria)
+            holder.itemView.findNavController().navigate(R.id.catalogoFragment, bundle)
+        }
 
+        // 2. Configurar el clic en la card de categoría
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.invoke(category)
+        }
     }
 
     fun setData(categoria: List<Categoria>) {

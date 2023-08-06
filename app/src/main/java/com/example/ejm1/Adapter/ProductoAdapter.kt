@@ -38,15 +38,21 @@ class ProductoAdapter(private var dataList: List<Product>): RecyclerView.Adapter
         Glide.with(holder.itemView.context)
             .load(product.imagen)
             .into(holder.productImage)
-        holder.productNameTextView.text = product.descripcion
+        holder.productNameTextView.text = product.nombre
         holder.productPriceTextView.text = product.precio.toString()
         holder.addButton.setOnClickListener {
             // Tu lógica aquí cuando se haga clic en el botón
             // Por ejemplo, agregar el producto al carrito, etc.
         }
-
-        // Puedes agregar aquí algún OnClickListener para el botón si deseas realizar alguna acción al hacer clic en él
-        // Por ejemplo: holder.addButton.setOnClickListener { // tu lógica aquí }
+        // Configurar el clic en el ítem del RecyclerView
+        holder.itemView.setOnClickListener {
+            val categoryName = product.categoria.nombre
+            // Filtrar los productos por el nombre de la categoría seleccionada y actualizar el RecyclerView
+            val productsInCategory = dataList.filter { product ->
+                product.categoria.nombre.equals(categoryName, ignoreCase = true)
+            }
+            setData(productsInCategory)
+        }
     }
 
     override fun getItemCount(): Int {

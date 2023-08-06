@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.example.ejm1.Adapter.CategoriaAdapter
+import com.example.ejm1.Adapter.ProductoAdapter
 import com.example.ejm1.Clases.Categoria
+import com.example.ejm1.Clases.Product
 
 import com.example.ejm1.Object.RetrofitClient
 import com.example.ejm1.R
@@ -44,11 +46,10 @@ class ComprasFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        // Crear e inicializar el adaptador
 
 
     }
-
 
 
 }

@@ -42,8 +42,19 @@
         android:name="com.example.ejm1.Fragments.CategoriaFragment"
         android:label="fragment_categoria"
         tools:layout="@layout/fragment_categoria" >
+        <!-- Agrega una acción para ir al CatalogoFragment -->
+        <action
+            android:id="@+id/action_categoriaFragment_to_catalogoFragment"
+            app:destination="@id/catalogoFragment" />
+
+
         <action
             android:id="@+id/action_categoriaFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/catalogoFragment"
+        android:name="com.example.ejm1.Fragments.CatalogoFragment"
+        android:label="fragment_catalogo"
+        tools:layout="@layout/fragment_catalogo" />
 </navigation>
